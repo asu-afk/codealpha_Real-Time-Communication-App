@@ -1,0 +1,41 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Check if the request is authenticated
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    // Profiles Collection
+    match /profiles/{uid} {
+      allow read: if isAuthenticated();
+      allow write: if isAuthenticated() && request.auth.uid == uid;
+    }
+
+    // Rooms Collection
+    match /rooms/{roomId} {
+      allow read: if isAuthenticated();
+      allow create: if isAuthenticated();
+      allow update, delete: if isAuthenticated() && (resource.data.host_id == request.auth.uid);
+    }
+
+    // Messages Collection
+    match /messages/{messageId} {
+      allow read: if isAuthenticated();
+      allow create: if isAuthenticated();
+      allow update, delete: if isAuthenticated() && resource.data.user_id == request.auth.uid;
+    }
+
+    // Whiteboard Snapshots
+    match /whiteboard_snapshots/{snapshotId} {
+      allow read, write: if isAuthenticated();
+    }
+
+    // Recordings Collection
+    match /recordings/{recordingId} {
+      allow read, write: if isAuthenticated();
+    }
+  }
+}

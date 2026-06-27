@@ -1,0 +1,11 @@
+{
+  "name": "Control Room Video Conference",
+  "description": "A high-fidelity multi-user video conferencing platform designed with a dark, slate control room interface. Features include WebRTC mesh, real-time whiteboarding, file sharing, and host-side recording.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone"
+  ],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
